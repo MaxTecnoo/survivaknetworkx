@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            animation: changeBackground 20s infinite; /* Animasi latar belakang pelangi */
+        }
+
+        .profile-img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .profile-name {
+            font-size: 20px;
+            color: #fff;
+            background-color: #28a745;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .button {
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-size: 16px;
+            padding: 20px 40px;
+            transition: all 0.3s ease;
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+        }
+
+        .button:active {
+            transform: translateY(1px);
+        }
+
+        .button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .status-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            background-color: #fff; /* Warna latar belakang untuk container */
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .status-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .status-info {
+            color: #333; /* Warna teks yang lebih jelas */
+        }
+
+        /* Animasi latar belakang warna-warni */
+    @keyframes changeBackground {
+      0% { background-color: #ff5733; }
+      25% { background-color: #ffc300; }
+      50% { background-color: #ff8c00; }
+      75% { background-color: #ff5733; }
+      100% { background-color: #ffc300; }
+    }
+
+    /* Animasi ular hitam */
+    @keyframes moveSnake {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .animated-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      animation: changeBackground 5s infinite alternate;
+      z-index: -1;
+    }
+
+    .snake {
+      position: absolute;
+      top: 0;
+      left: -200%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+      animation: moveSnake 10s linear infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="animated-background"></div>
+    <div class="snake"></div>
+    <div class="box">
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var ip = "snjava.mcpe.nl";
+            var port = "25625";
+            var url = "https://api.mcsrvstat.us/2/" + ip + ":" + port;
+            $.ajax({
+                url: url,
+                dataType: "json",
+                success: function(data) {
+                    var status = data.online ? "Online" : "Offline";
+                    var players = data.players ? data.players.online + "/" + data.players.max : "N/A";
+                    $("#server-name").text(data.hostname);
+                    $("#server-status").text(status);
+                    $("#players-online").text(players);
+                },
+                error: function() {
+                    $("#server-status").text("Error");
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    </div>
+    <img class="profile-img" src="https://gcdnb.pbrd.co/images/Arc618xmQIvW.jpg?o=1" alt="Profile Picture">
+    <div class="profile-name">Survivalnetwork X</div>
+    <div class="button-container">
+        <a href="https://chat.whatsapp.com/Cxa3k3x9UScKB5WGAG8Bcg" class="button"><span>GRUP WA</span></a>
+       <a href="https://discord.com/invite/WpabjTMPFS" class="button"><span>GRUP DISCORD</span></a>
+        <a href="https://minecraft-mp.com" class="button"><span>VOTE SERVER</span></a>
+        <a href="https://saweria.co/Fajarmc" class="button"><span>DONASI SERVER</span></a>
+    </div>
+
+    <button id="addServerButton" class="button">BEDROCK MCPE ADD SERVER</button>
+    
+    <div class="overlay" id="overlay">
+        <p id="loadingText">Sedang Mencari Server......</p>
+        <p id="foundText" style="display:none;">Server Telah Ditemukan Dan Akan Ditambahkan.....</p>
+        <p id="countdownText" style="display:none;">5</p>
+    </div>
+
+    <div>
+        <div class="status-container">
+            <p class="status-label">Ip-Port Java:</p>
+            <p id="server-nam" class="status-info">snjava.mcpe.nl:25625</p>
+        </div>
+        <div class="status-container">
+            <p class="status-label">Status:</p>
+            <p id="server-status" class="status-info">Online</p>
+        </div>
+        <div class="status-container">
+            <p class="status-label">Players Online:</p>
+            <p id="players-online" class="status-info">0/0</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("addServerButton").addEventListener("click", function() {
+    document.getElementById("overlay").style.display = "block";
+    setTimeout(function() {
+        document.getElementById("loadingText").style.display = "none";
+        document.getElementById("foundText").style.display = "block";
+        setTimeout(function() {
+            document.getElementById("foundText").style.display = "none";
+            document.getElementById("countdownText").style.display = "block";
+            var count = 5;
+            var countdown = setInterval(function() {
+                count--;
+                document.getElementById("countdownText").textContent = count;
+                if (count <= 0) {
+                    clearInterval(countdown);
+                    // Mengubah teks tombol dan menambahkan event listener
+                    document.getElementById("addServerButton").textContent = "Add";
+                    document.getElementById("addServerButton").addEventListener("click", function() {
+                        // Redirect ke skrip Minecraft
+                        const serverIP = "snjava.mcpe.nl";
+                        const serverPort = "25625";
+                        const serverName = "SurvivalnetworkX";
+                        
+                        const minecraftURL = `minecraft://?addExternalServer=${serverName}|${serverIP}:${serverPort}`;
+                        window.location.href = minecraftURL;
+                    });
+                    document.getElementById("countdownText").style.display = "none";
+                    document.getElementById("overlay").style.display = "none"; // Menghilangkan latar belakang hitam
+                }
+            }, 1000);
+        }, 2000);
+    }, 2000);
+});
+    </script>
+</body>
+
+</html>
